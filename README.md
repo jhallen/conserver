@@ -1,15 +1,13 @@
-# Console Server
+# Serial Console Server
 
 This is a replacement for the very old "cu" program (original part of
-UUCP!).
-
-Use this to turn a Linux box into a console server, so that you can "telnet
-linux-box 2002" to connect to ttyS2.  Also, it can be used to connect to the
-serial port directly from the shell.
+UUCP!).  It can be used at the shell prompt to connect to a serial port or
+can be used to turn a Linux box into a console server, so that you can
+"telnet linux-box 2002" to connect to ttyS2.
 
 There is on-line help.  You will see when you run the program.
 
-## For console server:
+## Setup for console server use
 
 Put this into /etc/xinetd.d/direct_ttyS2
 
@@ -31,7 +29,8 @@ Put this into /etc/xinetd.d/direct_ttyS2
 	        disable         = no
 	}
 
-We add more serial ports to a PC like this:
+If you have a multi-port serial card, you can use setserial to add these
+extra ports:
 
 /etc/rc.local:
 
@@ -75,8 +74,8 @@ or:
 
 	./c /dev/ttyUSB0 --baud=9600
 
-Here is a shell script to control CPS Power string (uses 300 baud serial
-port):
+Included is a shell script to control a [CPS Power string](http://www.cpscom.com/controlled-ac-power-strip-cps-468.html) (uses 300 baud
+serial port):
 
 	power
 
@@ -110,7 +109,7 @@ port):
 
 ## Commands
 
-Hit ~h for help.  These other ~ commands are available:
+Once connected, these ~ commands are available:
 
 	~b		Send break
 
