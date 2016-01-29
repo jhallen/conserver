@@ -1,0 +1,9 @@
+allow escape characters in send_string (command line use is easier)
+
+delete lock if user hits ^C
+
+check option values when parsing file / command line
+
+echo option needs to go with local tty
+
+simplify symctrl
