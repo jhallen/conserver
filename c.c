@@ -1190,8 +1190,23 @@ void local_recv(char *buf, int len)
 			}
 		}
 	}
-	if (optr)
-		write(remote_fd, obuf, optr);
+	if (optr) {
+		int x = 0;
+		while (x != optr) {
+			int len = write(remote_fd, obuf + x, optr - x);
+			if (len > 0)
+				x += len;
+				
+			if (len < 0 && errno != EAGAIN && errno != EINTR) {
+				perror("Write error\n");
+				break;
+			}
+			if (len == 0) {
+				printf("\r\nRemote closed?\r\n");
+				break;
+			}
+		}
+	}
 }
 
 const char *remote_host_name;
@@ -1359,7 +1374,7 @@ int main(int argc, char **argv)
 	}
 	printf("\n");
 	if (ESC_CHAR == '~')
-		printf("Hello %s.  Type ~h for help (~~h if connecting through ssh).\n", username, unesc(ESC_CHAR));
+		printf("Hello %s.  Type ~h for help (~~h if connecting through ssh).\n", username);
 	else
 		printf("Hello %s.  Type %sh for help.\n", username, unesc(ESC_CHAR));
 	fcntl(remote_fd, F_SETFL, O_NONBLOCK);
